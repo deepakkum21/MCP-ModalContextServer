@@ -4,7 +4,7 @@
       "command": "java",
       "args": [
         "-jar",
-        "/Users/javatechie/Downloads/shopping-cart-mcp/target/shopping-cart-server.jar"
+        "/Users/deepakkumar/Downloads/shopping-cart-mcp/target/shopping-cart-server.jar"
       ]
     }
   }

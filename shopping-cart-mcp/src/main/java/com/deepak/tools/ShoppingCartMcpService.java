@@ -1,7 +1,7 @@
-package com.javatechie.tools;
+package com.deepak.tools;
 
-import com.javatechie.entity.CartItem;
-import com.javatechie.respository.CartItemRepository;
+import com.deepak.entity.CartItem;
+import com.deepak.respository.CartItemRepository;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
@@ -18,60 +18,49 @@ public class ShoppingCartMcpService {
         this.cartItemRepository = cartItemRepository;
     }
 
-    //tools
+    // tools
     // catalog service
     private static final Map<String, Double> PRODUCTS = Map.of(
             "iPhone", 79999.0,
             "MacBook Air", 129999.0,
-            "Boat Airdopes", 1999.0
-    );
+            "Boat Airdopes", 1999.0);
 
-    @Tool(name = "addToCart",
-            description = "Add a product to the shopping cart. If the product already exists, it updates the quantity.")
-    public String addToCart(@ToolParam String productName, @ToolParam int quantity){
+    @Tool(name = "addToCart", description = "Add a product to the shopping cart. If the product already exists, it updates the quantity.")
+    public String addToCart(@ToolParam String productName, @ToolParam int quantity) {
 
-        if(!PRODUCTS.containsKey(productName)){
+        if (!PRODUCTS.containsKey(productName)) {
             return "product not found";
         }
 
         Double price = PRODUCTS.get(productName);
 
-        CartItem cartItem=cartItemRepository.findByProductId(productName);
+        CartItem cartItem = cartItemRepository.findByProductId(productName);
 
-        if(cartItem==null){
+        if (cartItem == null) {
             cartItem = new CartItem();
             cartItem.setProductId(productName);
             cartItem.setProductName(productName);
             cartItem.setQuantity(quantity);
-        }else{
-            cartItem.setQuantity(cartItem.getQuantity()+quantity);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
-        cartItem.setPrice(cartItem.getQuantity()*price);
+        cartItem.setPrice(cartItem.getQuantity() * price);
         cartItemRepository.save(cartItem);
         return quantity + " " + productName + " added to cart. Total price: " + (cartItem.getPrice());
     }
 
-    @Tool(
-            name = "removeCart",
-            description = "Remove a product from the shopping cart."
-    )
-    public String removeCart(@ToolParam String productName){
+    @Tool(name = "removeCart", description = "Remove a product from the shopping cart.")
+    public String removeCart(@ToolParam String productName) {
         cartItemRepository.deleteByProductId(productName);
         return productName + " removed from cart.";
     }
 
-    @Tool(
-            name = "getCarts",
-            description = "Retrieve the current shopping cart items."
-    )
-    public List<CartItem> getCarts(){
+    @Tool(name = "getCarts", description = "Retrieve the current shopping cart items.")
+    public List<CartItem> getCarts() {
         return cartItemRepository.findAll();
     }
 
-    @Tool(
-            name = "getCartTotal",
-            description = "Calculate the total price of items in the shopping cart."
-    )
+    @Tool(name = "getCartTotal", description = "Calculate the total price of items in the shopping cart.")
     public double getCartTotal() {
         return cartItemRepository.findAll().stream()
                 .mapToDouble(CartItem::getPrice)

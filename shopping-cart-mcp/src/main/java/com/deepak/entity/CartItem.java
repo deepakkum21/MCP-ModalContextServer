@@ -1,4 +1,4 @@
-package com.javatechie.entity;
+package com.deepak.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +19,5 @@ public class CartItem {
     private String productName;
     private double price;
     private int quantity;
-    
+
 }

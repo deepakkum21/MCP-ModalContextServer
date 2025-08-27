@@ -1,6 +1,6 @@
-package com.javatechie;
+package com.deepak;
 
-import com.javatechie.tools.ShoppingCartMcpService;
+import com.deepak.tools.ShoppingCartMcpService;
 import org.springframework.ai.support.ToolCallbacks;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +17,7 @@ public class ShoppingCartMcpApplication {
 	}
 
 	@Bean
-	public List<ToolCallback> shoppingCartToolCallback(ShoppingCartMcpService cartMcpService){
+	public List<ToolCallback> shoppingCartToolCallback(ShoppingCartMcpService cartMcpService) {
 		return List.of(ToolCallbacks.from(cartMcpService));
 	}
 
